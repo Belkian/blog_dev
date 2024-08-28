@@ -1,0 +1,41 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+home:
+    path: /
+    controller: App\Controller\HomeController::index
+
+admin:
+    path: /admin
+    controller: App\Controller\AdminController::index
+
+register:
+    path: /register
+    controller: App\Controller\RegistrationController::index
+
+login:
+    path: /login
+    controller: App\Controller\SecurityController::index
+
+api_article:
+    path: /api/articles
+    controller: App\Controller\API\ArticleController::index
+
+api_article_show:
+    path: /api/articles/{id}
+    controller: App\Controller\API\ArticleController::show
+
+app_article_index:
+    path: /articles
+    controller: App\Controller\ArticleController::index
+
+api_users:
+    path: /api/users
+    controller: App\Controller\API\UserController::index
+
+api_users_show:
+    path: /api/users/{id}
+    controller: App\Controller\API\UserController::show

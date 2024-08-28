@@ -1,0 +1,42 @@
+
+services:
+###> doctrine/doctrine-bundle ###
+  database:
+    image: mysql:8.3
+    environment:
+      - MYSQL_ROOT_PASSWORD=blogdev
+      - MYSQL_USER=blog-dev
+      - MYSQL_PASSWORD=blogdev
+      - MYSQL_DATABASE=blog-dev
+    volumes:
+      - database_data:/var/lib/mysql
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+  backend:
+    build: ./backend
+    command: symfony serve -d
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./env
+    container_name: blog_back_dev
+
+  frontend:
+    build: ./frontend
+    command: symfony serve -d
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+    restart: always
+    container_name: blog_front_dev
+
+volumes:
+  dist_volume:
+###> doctrine/doctrine-bundle ###
+###< doctrine/doctrine-bundle ###
