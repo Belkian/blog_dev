@@ -3,8 +3,9 @@
     <div v-else>
         <div id="ArticleDetail">
             <h1>{{ post.title }}</h1>
-            <h2>{{ post.categorie.name }}</h2>
+            <h2>{{ post.categorie }}</h2>
             <p>{{ post.text }}</p>
+            <p>{{ post.creator.name }}</p>
         </div>
     </div>
 </template>
@@ -27,6 +28,7 @@ const fetchPost = async () => {
         isLoading.value = true;
         error.value = null;
         let response = await axios.get(`/api/articles/${articleId}`);
+        console.log(response.data);
         post.value = response.data;
     } catch (error) {
         console.error("Erreur lors de la récupération de l'article", error);
