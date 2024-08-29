@@ -5,7 +5,7 @@
         <label for="email">Email</label>
         <input type="email" id="email" v-model="email" autocomplete="email" required>
         <label for="password">Password</label>
-        <input type="password" id="password" v-model="password" autocomplete="password" required>
+        <input type="password" id="password" v-model="password" autocomplete="password" required minlength="6">
         <div class="flex">
             <div @click="Connexion" class="button">Connexion</div>
             <RouterLink :to="{ name: 'Register' }" class="button">S'inscrire</RouterLink>
@@ -49,7 +49,12 @@ const Connexion = async () => {
 h1{
     text-align: center;
 }
+input{
+    border: none;
+    padding: 5px;
+}
 #Login{
+    box-shadow: 0px 0px 5px rgb(204, 204, 204);
     background-color: rgb(238, 238, 238);
     padding: 20px;
     width: 50%;
@@ -80,5 +85,10 @@ label{
 }
 .button:hover {
     background-color: #0056b3;
+}
+@media (max-width: 750px) {
+    #Login{
+        width: 90%;
+    }
 }
 </style>
