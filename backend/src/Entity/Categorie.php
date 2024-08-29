@@ -7,25 +7,25 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
 class Categorie
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['article.index'])]
+    #[Groups(['api_article_new', 'api_article_index', 'api_article_show',])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['article.index', 'article.show'])]
+    #[Groups(['api_categorie_index', 'api_categorie_show', 'api_article_new', 'api_article_index', 'api_article_show'])]
     private ?string $name = null;
 
     /**
      * @var Collection<int, Article>
      */
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'categories')]
-    private Collection $articles; // Correction du nom pour correspondre au côté propriétaire
+    #[Groups(['api_article_index', 'api_article_show'])]
+    private Collection $articles;
 
     public function __construct()
     {
