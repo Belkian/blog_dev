@@ -3,15 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Article;
-use App\Entity\Categorie;
+use App\Entity\categorie;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\PreSubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ArticleType extends AbstractType
@@ -24,11 +22,13 @@ class ArticleType extends AbstractType
                 'label' => 'Image du produit :'
             ])
             ->add('text')
-            ->add('categorie', EntityType::class, [
-                'class' => Categorie::class,
+            ->add('categories', EntityType::class, [
+                'class' => categorie::class,
                 'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true
             ])
-            ->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'setCreatedAt'])
+            // ->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'setCreatedAt'])
         ;
     }
 
@@ -48,3 +48,4 @@ class ArticleType extends AbstractType
         ]);
     }
 }
+
