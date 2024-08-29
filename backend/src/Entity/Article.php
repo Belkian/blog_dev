@@ -19,15 +19,15 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['article.index'])]
+    #[Groups(['api_article_index'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['article.index', 'article.show'])]
+    #[Groups(['api_article_index', 'api_article_show'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['article.index', 'article.show'])]
+    #[Groups(['api_article_index', 'api_article_show'])]
     private ?string $image = null;
 
     #[ORM\Column]
@@ -35,7 +35,7 @@ class Article
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['article.index', 'article.show'])]
+    #[Groups(['api_article_index', 'api_article_show'])]
     private ?User $creator = null;
 
     #[Vich\UploadableField(mapping: 'thumbnail', fileNameProperty: 'image')]
@@ -43,25 +43,25 @@ class Article
     private ?File $thumbnailFile = null;
 
     #[ORM\Column]
-    #[Groups(['article.index', 'article.show'])]
+    #[Groups(['api_article_index', 'api_article_show'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['article.index', 'article.show'])]
+    #[Groups(['api_article_index', 'api_article_show'])]
     private ?string $text = null;
 
     /**
      * @var Collection<int, Categorie>
      */
     #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'articles')]
-    #[Groups(['article.index', 'article.show'])]
+    #[Groups(['api_article_index', 'api_article_show'])]
     private Collection $categories;
 
     private ?string $timeAgo = null;
 
     public function __construct()
     {
-        $this->categories = new ArrayCollection(); 
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,10 +145,11 @@ class Article
         $this->text = $text;
         return $this;
     }
-
     /**
      * @return Collection<int, Categorie>
      */
+
+    #[Groups(['api_article_index', 'api_article_show'])]
     public function getCategories(): Collection
     {
         return $this->categories;
@@ -168,10 +169,13 @@ class Article
         return $this;
     }
 
+    #[Groups(['api_article_index', 'api_article_show'])]
     public function setTimeAgo(?string $timeAgo): void
     {
         $this->timeAgo = $timeAgo;
     }
+
+    #[Groups(['api_article_index', 'api_article_show'])]
 
     public function getTimeAgo(): ?string
     {

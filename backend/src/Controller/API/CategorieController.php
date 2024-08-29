@@ -16,7 +16,7 @@ class CategorieController extends AbstractController
     {
         $categories = $categorieRepository->findAll();
         return $this->json($categories, 200, [], [
-            'groups' => ['categorie.index']
+            'groups' => ['api_categorie_index']
         ]);
     }
 
@@ -24,7 +24,7 @@ class CategorieController extends AbstractController
     public function show(Categorie $categorie): JsonResponse
     {
         return $this->json($categorie, 200, [], [
-            'groups' => ['categorie.index', 'categorie.show']
+            'groups' => ['api_categorie_index', 'api_categorie_show']
         ]);
     }
 }

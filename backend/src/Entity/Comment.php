@@ -13,15 +13,15 @@ class Comment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['article.show'])]
+    #[Groups(['api_article_show'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['article.show'])]
+    #[Groups(['api_article_show'])]
     private $text;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[Groups(['article.show'])]
+    #[Groups(['api_article_show'])]
     private ?User $userComment = null;
 
     public function getId(): ?int
