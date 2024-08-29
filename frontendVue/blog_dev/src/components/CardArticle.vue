@@ -2,7 +2,8 @@
     <div class="card-article">
         <img :src="post.image" :alt="post.title" class="article-image">
         <h2>{{ post.title || 'Titre non disponible' }}</h2>
-        <p>{{ post.text || 'Contenu non disponible' }}</p>
+        <p>{{ post.text.substring(0, 150) +
+                            "..." || 'Contenu non disponible' }}</p>
         <div class="article-meta">
             <p>Auteur: {{ post.creator?.name || 'Inconnu' }}</p>
             <p>Catégorie: {{ post.categorie?.name || 'Non catégorisé' }}</p>
