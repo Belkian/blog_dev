@@ -37,5 +37,11 @@ onMounted(() => {
   display: flex;
   margin: auto;
 }
-
+@media (max-width: 750px) {
+  .home{
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+  }
+}
 </style>
