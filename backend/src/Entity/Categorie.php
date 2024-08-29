@@ -6,7 +6,7 @@ use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
 class Categorie
@@ -24,8 +24,8 @@ class Categorie
     /**
      * @var Collection<int, Article>
      */
-    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'categorie')]
-    private Collection $articles;
+    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'categories')]
+    private Collection $articles; // Correction du nom pour correspondre au côté propriétaire
 
     public function __construct()
     {
@@ -45,7 +45,6 @@ class Categorie
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -61,7 +60,7 @@ class Categorie
     {
         if (!$this->articles->contains($article)) {
             $this->articles->add($article);
-            $article->setCategorie($this);
+            $article->addCategory($this);
         }
 
         return $this;
@@ -70,15 +69,9 @@ class Categorie
     public function removeArticle(Article $article): static
     {
         if ($this->articles->removeElement($article)) {
-            // set the owning side to null (unless already changed)
-            if ($article->getCategorie() === $this) {
-                $article->setCategorie(null);
-            }
+            $article->removeCategory($this);
         }
 
         return $this;
     }
-
-
-
 }

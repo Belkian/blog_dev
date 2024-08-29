@@ -8,8 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Serializer\Annotation\Groups as AnnotationGroups;
-use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,7 +19,7 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['article.index', 'article.show'])]
+    #[Groups(['article.index'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -51,9 +50,19 @@ class Article
     #[Groups(['article.index', 'article.show'])]
     private ?string $text = null;
 
-    #[ORM\ManyToOne(inversedBy: 'articles')]
+    /**
+     * @var Collection<int, Categorie>
+     */
+    #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'articles')]
     #[Groups(['article.index', 'article.show'])]
-    private ?Categorie $categorie = null;
+    private Collection $categories;
+
+    private ?string $timeAgo = null;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection(); 
+    }
 
     public function getId(): ?int
     {
@@ -68,7 +77,6 @@ class Article
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -80,7 +88,6 @@ class Article
     public function setImage(string $image): static
     {
         $this->image = $image;
-
         return $this;
     }
 
@@ -92,37 +99,28 @@ class Article
     public function setStatus(bool $status): static
     {
         $this->status = $status;
-
         return $this;
     }
 
-    public function getCreator(): ?user
+    public function getCreator(): ?User
     {
         return $this->creator;
     }
 
-    public function setCreator(?user $creator): static
+    public function setCreator(?User $creator): static
     {
         $this->creator = $creator;
-
         return $this;
     }
 
-    /**
-     * Get the value of thumbnailFile
-     */
     public function getThumbnailFile(): ?File
     {
         return $this->thumbnailFile;
     }
 
-    /**
-     * Set the value of thumbnailFile
-     */
     public function setThumbnailFile(?File $thumbnailFile): static
     {
         $this->thumbnailFile = $thumbnailFile;
-
         return $this;
     }
 
@@ -134,10 +132,8 @@ class Article
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
-
 
     public function getText(): ?string
     {
@@ -147,20 +143,38 @@ class Article
     public function setText(string $text): static
     {
         $this->text = $text;
-
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
+    /**
+     * @return Collection<int, Categorie>
+     */
+    public function getCategories(): Collection
     {
-        return $this->categorie;
+        return $this->categories;
     }
 
-    public function setCategorie(?Categorie $categorie): static
+    public function addCategory(Categorie $categorie): static
     {
-        $this->categorie = $categorie;
-
+        if (!$this->categories->contains($categorie)) {
+            $this->categories->add($categorie);
+        }
         return $this;
     }
 
+    public function removeCategory(Categorie $categorie): static
+    {
+        $this->categories->removeElement($categorie);
+        return $this;
+    }
+
+    public function setTimeAgo(?string $timeAgo): void
+    {
+        $this->timeAgo = $timeAgo;
+    }
+
+    public function getTimeAgo(): ?string
+    {
+        return $this->timeAgo;
+    }
 }

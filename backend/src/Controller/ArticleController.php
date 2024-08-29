@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/articles')]
@@ -17,8 +18,29 @@ class ArticleController extends AbstractController
     #[Route('/', name: 'article_index', methods: ['GET'])]
     public function index(ArticleRepository $articleRepository): Response
     {
+        $articles = $articleRepository->findAll();
+        $articlesDetails = [];
+        foreach ($articles as $article) {
+
+            $categoryNames = [];
+            foreach ($article->getCategories() as $category) {
+                $categoryNames[] = $category->getName();
+            }
+
+            $articlesDetails[] = [
+                'id' => $article->getId(),
+                'title' => $article->getTitle(),
+                'image' => $article->getImage(),
+                'text' => $article->getText(),
+                'status' => $article->isStatus(),
+                'creator' => $article->getCreator()->getName().' '.$article->getCreator()->getlastname(),
+                'categories' => $categoryNames,
+                'createdAt' => $article->getCreatedAt()->format('d/m/Y H:i'),
+            ];
+        }
+
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $articlesDetails,
         ]);
     }
 
@@ -78,4 +100,40 @@ class ArticleController extends AbstractController
 
         return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/articles-en-attente', name: 'app_article_pending')]
+    public function articlesEnAttente(Article $article, ArticleRepository $articleRepository ): Response
+    {
+        $articles = $articleRepository->findBy(['status' => 0]);
+        dd($articles);
+        return $this->render('article/pending.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
+    #[Route('/accepter/{id}', name: 'app_article_accepter')]
+    public function accepter(Article $article, EntityManagerInterface $entityManager): Response
+    {
+        if (!$article) {
+            throw new NotFoundHttpException('Article non trouvé');
+        }
+
+        $article->setStatus(1);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_article_pending');
+    }
+
+    #[Route('/refuser/{id}', name: 'app_article_refuser')]
+    public function refuser(Article $article, EntityManagerInterface $entityManager): Response
+    {
+        if (!$article) {
+            throw new NotFoundHttpException('Article non trouvé');
+        }
+
+        $entityManager->remove($article);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_article_pending');
+    }
+
 }
