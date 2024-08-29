@@ -68,7 +68,12 @@ const Register = async () => {
 h1{
     text-align: center;
 }
+input{
+    border: none;
+    padding: 5px;
+}
 #Register{
+    box-shadow: 0px 0px 5px rgb(204, 204, 204);
     background-color: rgb(238, 238, 238);
     padding: 20px;
     width: 50%;
@@ -101,5 +106,10 @@ background-color: #0056b3;
 }
 .error{
     color: red;
+}
+@media (max-width: 750px) {
+    #Register{
+        width: 90%;
+    }
 }
 </style>

@@ -14,8 +14,8 @@
         </select>
         <div v-if="error">{{ error }}</div>
         <div class="flex">
-            <button class="blue" @click="updateArticle">Confirmer</button>
-            <RouterLink :to="{ name: 'Dashboard' }" class="red">Annuler</RouterLink>       
+            <button class="blue button" @click="updateArticle">Confirmer</button>
+            <RouterLink :to="{ name: 'Dashboard' }" class="red button">Annuler</RouterLink>       
         </div>
     </div>
 </template>
@@ -51,7 +51,7 @@ const fetchCategorieArticle = async () => {
     try {
         isLoading.value = true;
         error.value = null;
-        const response = await axios.get('/api/categorie/');
+        const response = await axios.get('/api/categorie');
         categories.value = response.data;    
     } catch (err) {
         error.value = "Erreur lors de la récupération des catégories";
@@ -84,11 +84,19 @@ onMounted(() => {
 </script>
 
 <style scoped>
+input, select, textarea{
+    border: none;
+    padding: 5px;
+}
+
 .formArticle{
     display: flex;
     flex-direction: column;
     width: 90%;
     margin: auto;
+    background-color: rgb(245, 245, 245);
+    border-radius: 5px;
+    padding: 30px;
 }
 .flex{
     display: flex;
@@ -107,4 +115,14 @@ button{
 label{
     margin-top: 15px;
 }
+.button{
+    border-radius: 5px;
+    margin-top: 15px;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    align-content: space-around;
+    width: 75px;
+}
+
 </style>

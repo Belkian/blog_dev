@@ -71,6 +71,7 @@ onMounted(() => {
     padding: 30px;
     margin: auto;
     width: 90%;
+    box-shadow: 0px 0px 5px rgb(204, 204, 204);
 }
 .center{
     margin: auto;
