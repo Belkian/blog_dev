@@ -9,22 +9,24 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 
+#[Route('/api/articles', name: 'api_article_')]
 class ArticleController extends AbstractController {
 
-    #[Route('/api/articles', name:"index")]
-    public function index(ArticleRepository $repository): JsonResponse {
+    #[Route('', name:"index", methods: ['GET'])]
+    public function index(ArticleRepository $articleRepository): JsonResponse {
 
-        $article = $repository->findAll();
-        return $this->json($article, 200, [], [
+        $articles = $articleRepository->findAll();
+        return $this->json($articles, 200, [], [
             'groups' => ['article.index']
         ]);
     }
 
-    #[Route('/api/articles/{id}', name:"show", requirements: ['id' => Requirement::DIGITS])]
-    public function show(Article $article): JsonResponse {
+    #[Route('/{id}', name:"show", requirements: ['id' => Requirement::DIGITS], methods: ['GET'])]
+    public function show(ArticleRepository $articleRepository, $id): JsonResponse {
 
+        $article = $articleRepository->find($id);
         return $this->json($article, 200, [], [
-            'groups' => ['article.index', 'article.show']
+            'groups' => ['article.index', 'article.show']       
         ]);
     }
 }
