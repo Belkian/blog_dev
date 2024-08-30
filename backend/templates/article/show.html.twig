@@ -10,6 +10,10 @@
             <table class="min-w-full leading-normal">
                 <tbody>
                     <tr class="border-b border-gray-200">
+                        <th class="py-4 px-6 bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase">Auteur</th>
+                        <td class="py-4 px-6">{{ article.creator.name }} {{ article.creator.lastname }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
                         <th class="py-4 px-6 bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase">Title</th>
                         <td class="py-4 px-6">{{ article.title }}</td>
                     </tr>
