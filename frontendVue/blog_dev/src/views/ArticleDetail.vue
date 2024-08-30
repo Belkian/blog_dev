@@ -4,8 +4,9 @@
         <div id="ArticleDetail">
             <h1>{{ post.title }}</h1>
             <h2>{{ post.categorie }}</h2>
-            <p>{{ post.text }}</p>
-            <p>{{ post.creator.name }}</p>
+            <p>Article écrit par : {{ post.creator.name }}</p>
+            <p>Posté le : {{ formatDate(post.createdAt) }}</p>
+            <p class="text">{{ post.text }}</p>
         </div>
     </div>
 </template>
@@ -27,7 +28,7 @@ const fetchPost = async () => {
     try {
         isLoading.value = true;
         error.value = null;
-        let response = await axios.get(`/api/articles/${articleId}`);
+        let response = await axios.get(`/api/article/${articleId}`);
         console.log(response.data);
         post.value = response.data;
     } catch (error) {
@@ -41,6 +42,11 @@ const fetchPost = async () => {
 onMounted(() => {
     fetchPost();
 });
+
+const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('fr-FR', options);
+};
 </script>
 
 <style scoped>
@@ -50,6 +56,10 @@ onMounted(() => {
 }
 h1{
     text-align: center;
+    margin-bottom: 30px;
+}
+.text{
+    margin: 30px 0px;
 }
 /* h2{
 

@@ -4,8 +4,10 @@
         <img src="../../media/arnel-hasanovic-MNd-Rka1o0Q-unsplash.jpg" class="article-image" alt="image wesh">
         <h2>{{ post.title || 'Titre non disponible' }}</h2>
         <div class="article-meta">
+            <p>Catégorie : 
+                <span class="categorie" v-for="categorie in post.categories">{{ categorie.name || 'Non catégorisé' }}</span>
+            </p>
             <p>Auteur: {{ post.creator?.name || 'Inconnu' }}</p>
-            <p>Catégorie: {{ post.categorie?.name || 'Non catégorisé' }}</p>
             <p>Date: {{ formatDate(post.createdAt) }}</p>
         </div>
         <p class="margin-b">{{ post.text.substring(0, 150) + '...' || 'Contenu non disponible' }}</p>
@@ -32,9 +34,7 @@ const formatDate = (dateString) => {
 </script>
 
 <style scoped>
-p{
-    margin-bottom: 10px;
-}
+
 .card-article {
     box-shadow: 0px 0px 5px rgb(204, 204, 204);
     position: relative;
@@ -68,7 +68,11 @@ p{
     bottom: 17px;
 }
 .margin-b{
+    margin-top: 20px;
     margin-bottom: 55px;
+}
+.categorie{
+    margin-right: 4px;
 }
 @media (min-width: 750px) {
     .card-article{
