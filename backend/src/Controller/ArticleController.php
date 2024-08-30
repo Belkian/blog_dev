@@ -100,15 +100,6 @@ class ArticleController extends AbstractController
 
         return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/articles-en-attente', name: 'app_article_pending')]
-    public function articlesEnAttente(Article $article, ArticleRepository $articleRepository ): Response
-    {
-        $articles = $articleRepository->findBy(['status' => 0]);
-        dd($articles);
-        return $this->render('article/pending.html.twig', [
-            'articles' => $articles,
-        ]);
-    }
 
     #[Route('/accepter/{id}', name: 'app_article_accepter')]
     public function accepter(Article $article, EntityManagerInterface $entityManager): Response
@@ -120,7 +111,9 @@ class ArticleController extends AbstractController
         $article->setStatus(1);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_article_pending');
+        $this->addFlash('success', 'L\'article a été approuvé avec succès.');
+
+        return $this->redirectToRoute('app_dashboard');
     }
 
     #[Route('/refuser/{id}', name: 'app_article_refuser')]
@@ -133,7 +126,9 @@ class ArticleController extends AbstractController
         $entityManager->remove($article);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_article_pending');
+        $this->addFlash('success', 'L\'article a été refusé et supprimé avec succès.');
+        
+        return $this->redirectToRoute('app_dashboard');
     }
 
 }

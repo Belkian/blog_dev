@@ -13,7 +13,7 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(ArticleRepository $articleRepository, UserRepository $user): Response
     {
-        $articles = $articleRepository->findAll();
+        $articles = $articleRepository->findBy([], ['createdAt' => 'DESC']);
         $user = $user->findAll();   
 
         $currentDate = new \DateTime();
@@ -21,7 +21,6 @@ class DashboardController extends AbstractController
             $interval = $currentDate->diff($article->getCreatedAt());
             $article->setTimeAgo($this->formatTimeAgo($interval));
         }
-
         return $this->render('dashboard/index.html.twig', [
             'articles' => $articles,
         ]);

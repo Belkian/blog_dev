@@ -20,7 +20,6 @@ class ArticleController extends AbstractController
     public function index(ArticleRepository $articleRepository): JsonResponse
     {
         $articles = $articleRepository->findAll();
-        $responseData = [];
         foreach ($articles as $article) {
             $categories = $article->getCategories()->map(function($category) {
                 return ['name' => $category->getName()];
@@ -31,9 +30,10 @@ class ArticleController extends AbstractController
                 'text' => $article->getText(),
                 'image' => $article->getImage(),
                 'categories' => $categories,
+                'creator' => $article->getCreator()->getName() . ' ' . $article->getCreator()->getlastname(),
+                'date' => $article->getCreatedAt()->format('d/m/Y H:i'),
             ];
         }
-
         return $this->json($responseData, 200, [], [
             'groups' => ['api_article_index', 'api_article_show']
         ]);
