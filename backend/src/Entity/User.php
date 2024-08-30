@@ -52,6 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Article>
      */
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'creator')]
+    #[Groups(['api_article_index', 'api_article_show', 'admin.users.index', 'user.dashboard'])]
     private Collection $articles;
 
     /**
