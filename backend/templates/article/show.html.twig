@@ -3,36 +3,50 @@
 {% block title %}Article{% endblock %}
 
 {% block body %}
-    <h1>Article</h1>
+    <div class="container mx-auto p-8">
+        <h1 class="text-3xl font-bold mb-6">Article Details</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ article.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ article.title }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ article.image }}</td>
-            </tr>
-            <tr>
-                <th>Text</th>
-                <td>{{ article.text }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ article.status ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <table class="min-w-full leading-normal">
+                <tbody>
+                    <tr class="border-b border-gray-200">
+                        <th class="py-4 px-6 bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase">Title</th>
+                        <td class="py-4 px-6">{{ article.title }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <th class="py-4 px-6 bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase">Image</th>
+                        <td class="py-4 px-6">{{ article.image }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <th class="py-4 px-6 bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase">Text</th>
+                        <td class="py-4 px-6">{{ article.text }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <th class="py-4 px-6 bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase">Approuvé</th>
+                        <td class="py-4 px-6">
+                            <span class="px-3 py-1 rounded-full text-xs font-medium {{ article.status ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                {{ article.status ? 'Oui' : 'Non' }}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <a href="{{ path('app_article_index') }}">back to list</a>
+        <div class="mt-6 flex space-x-4">
+            <a href="{{ path('app_dashboard') }}" class="inline-block px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
+                Retour
+            </a>
 
-    <a href="{{ path('app_article_edit', {'id': article.id}) }}">edit</a>
+            {% if not article.status %}
+                <a href="{{ path('app_article_accepter', {'id': article.id}) }}" class="inline-block px-6 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-75">
+                    Approuver
+                </a>
 
-    {{ include('article/_delete_form.html.twig') }}
+                <a href="{{ path('app_article_refuser', {'id': article.id}) }}" class="inline-block px-6 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75">
+                    Refuser
+                </a>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
