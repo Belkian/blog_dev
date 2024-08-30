@@ -12,11 +12,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 
-#[Route('/api/articles', name: 'api_article_')]
+#[Route('/api/article', name: 'api_article_')]
 class ArticleController extends AbstractController
 {
 
-    #[Route('/api/articles', name: "api_article_index", methods: ['GET'])]
+    #[Route('s', name: "api_article_index", methods: ['GET'])]
     public function index(ArticleRepository $articleRepository): JsonResponse
     {
         $articles = $articleRepository->findAll();
@@ -42,7 +42,6 @@ class ArticleController extends AbstractController
     #[Route('/{id}', name: "show", requirements: ['id' => Requirement::DIGITS], methods: ['GET'])]
     public function show(ArticleRepository $articleRepository, $id): JsonResponse
     {
-
         $article = $articleRepository->find($id);
         return $this->json($article, 200, [], [
             'groups' => ['api_article_index', 'api_article_show']
