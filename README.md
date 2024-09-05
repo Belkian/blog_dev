@@ -71,18 +71,12 @@ Avant de commencer, assurez-vous d'avoir installé :
    composer install --no-dev --optimize-autoloader
    ```
 
-2. Configurez l'environnement :
-   ```bash
-   export APP_ENV=prod
-   export APP_SECRET=your_secret_key
-   ```
-
-3. Exécutez les migrations :
+2. Exécutez les migrations :
    ```bash
    php bin/console doctrine:migrations:migrate --no-interaction
    ```
 
-4. Configurez un serveur web (Nginx ou Apache) pour pointer vers le répertoire `public/` de Symfony.
+3. Configurez un serveur web (Nginx ou Apache) pour pointer vers le répertoire `public/` de Symfony.
 
 ### Frontend
 
