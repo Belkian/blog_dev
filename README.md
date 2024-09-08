@@ -35,6 +35,8 @@ Avant de commencer, assurez-vous d'avoir installé :
    ```bash
    php bin/console doctrine:database:create
    php bin/console doctrine:migrations:migrate
+   php bin/console d:m:m
+
    ```
 
 5. Démarrez le serveur Symfony :
