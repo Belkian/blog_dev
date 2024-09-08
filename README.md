@@ -10,7 +10,6 @@ Avant de commencer, assurez-vous d'avoir installé :
 - [Composer](https://getcomposer.org/)
 - [PHP](https://www.php.net/) (version 8.0 ou supérieure)
 - [Symfony CLI](https://symfony.com/download)
-- [Docker](https://www.docker.com/) (pour l'environnement de production recommandé)
 
 ## Installation
 
